@@ -1,225 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Be My Valentine 💘</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
-  background-size:400% 400%;
-  animation:bgMove 12s infinite;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
   font-family:Poppins,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+  background-size:400% 400%;
+  animation:bg 12s infinite;
   overflow:hidden;
 }
-
-@keyframes bgMove {
+@keyframes bg{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
 
-/* ---------- CARD ---------- */
-.card {
-  width:420px;
-  padding:40px;
-  background:rgba(255,255,255,0.8);
-  backdrop-filter:blur(15px);
-  border-radius:28px;
-  text-align:center;
-  position:relative;
-  z-index:2;
-}
-
-h2 {
-  font-family:"Playfair Display",serif;
-  margin-bottom:25px;
-  color:#4a1c2f;
-}
-
-/* ---------- EMOJIS ---------- */
-.emoji span {
-  font-size:64px;
-  display:inline-block;
-  margin:0 6px;
-}
-
-.chick { animation: flap 1.5s infinite; }
-.frog { animation: hop 1.8s infinite; }
-.heartEmoji { animation: pulse 1.6s infinite; }
-
-@keyframes flap {
-  50% { transform:translateY(-6px) rotate(6deg); }
-}
-
-@keyframes hop {
-  40% { transform:translateY(-14px); }
-}
-
-@keyframes pulse {
-  50% { transform:scale(1.15); }
-}
-
-/* ---------- BUTTONS ---------- */
-.buttons {
-  position:relative;
-  height:110px;
-}
-
-button {
-  position:absolute;
-  padding:14px 36px;
-  border:none;
-  border-radius:40px;
-  cursor:pointer;
-  font-size:16px;
-}
-
-#yes {
-  left:10%;
-  background:#ff4d6d;
-  color:white;
-}
-
-#no {
-  left:55%;
-  background:#fff;
-}
-
-/* ---------- FIRST SCREEN ANIMALS ---------- */
-.scene {
+/* SCENES */
+.scene{
   position:absolute;
   inset:0;
-  pointer-events:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+#yayScene{display:none}
 
-.pond {
+/* CARD */
+.card{
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(16px);
+  padding:40px 30px;
+  border-radius:26px;
+  text-align:center;
+  width:min(92%,420px);
+  z-index:5;
+}
+.emoji span{font-size:60px;margin:0 6px;display:inline-block}
+h2{margin:20px 0;color:#4a1c2f}
+.buttons{position:relative;height:120px}
+button{
   position:absolute;
-  left:5%;
-  bottom:10%;
-  font-size:50px;
+  padding:14px 36px;
+  border-radius:40px;
+  border:none;
+  cursor:pointer;
 }
+#yes{left:10%;background:#ff4d6d;color:#fff}
+#no{left:55%}
 
-.frog-run {
+/* FIRST SCREEN ANIMALS */
+.left-pond,.right-farm{
   position:absolute;
-  left:5%;
-  bottom:18%;
-  font-size:40px;
-  animation:frogRun 4s infinite alternate ease-in-out;
+  bottom:40px;
+  font-size:60px;
+}
+.left-pond{left:20px}
+.right-farm{right:20px}
+
+.frog-hop{animation:hop 1.6s infinite}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+
+.chicken-run{animation:run 2.2s infinite}
+@keyframes run{
+  0%{transform:translateX(0)}
+  50%{transform:translateX(-40px)}
+  100%{transform:translateX(0)}
 }
 
-@keyframes frogRun {
-  from { transform:translateX(0); }
-  to { transform:translateX(120px); }
+/* YAY SCREEN */
+.yay-wrap{
+  display:flex;
+  width:100%;
+  justify-content:space-between;
+  padding:0 30px;
+  align-items:center;
 }
 
-.chicken-run {
+.love-pair,.horse{
+  font-size:70px;
+}
+
+.love-pair span{display:inline-block}
+.float-heart{
   position:absolute;
-  right:5%;
-  bottom:12%;
-  font-size:40px;
-  animation:chickenRun 3.5s infinite alternate;
+  animation:floatUp 3s infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-120px);opacity:0}
 }
 
-@keyframes chickenRun {
-  from { transform:translateX(0) translateY(0); }
-  to { transform:translateX(-120px) translateY(-20px); }
-}
+.horse{animation:hop 1.4s infinite}
 
-/* ---------- YAY SCREEN ---------- */
-#yayScreen {
-  display:none;
-}
-
-.couple {
+/* HEART FLOAT */
+.heart{
   position:absolute;
-  left:6%;
-  bottom:20%;
-  font-size:44px;
-}
-
-.couple .heart {
-  position:absolute;
-  left:50%;
-  animation:floatHeart 2s infinite;
-}
-
-@keyframes floatHeart {
-  from { transform:translateY(0); opacity:1; }
-  to { transform:translateY(-40px); opacity:0; }
-}
-
-.horse {
-  position:absolute;
-  right:6%;
-  bottom:20%;
-  font-size:44px;
-  animation:horseHop 1.8s infinite;
-}
-
-@keyframes horseHop {
-  50% { transform:translateY(-20px); }
+  bottom:-20px;
+  animation:floatUp linear forwards;
 }
 </style>
 </head>
 
 <body>
 
+<!-- FIRST SCENE -->
 <div class="scene" id="firstScene">
-  <div class="pond">🌊</div>
-  <div class="frog-run">🐸</div>
-  <div class="chicken-run">🐥</div>
-</div>
 
-<div class="scene" id="yayScene" style="display:none">
-  <div class="couple">
-    🐸 🐥
-    <div class="heart">❤️</div>
-  </div>
-  <div class="horse">🐎</div>
-</div>
-
-<div class="card" id="card">
-  <div class="emoji">
-    <span class="chick">🐥</span>
-    <span class="heartEmoji">❤️</span>
-    <span class="frog">🐸</span>
+  <div class="left-pond">
+    🐸💦
+    <div class="frog-hop">🐸</div>
   </div>
 
-  <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
+  <div class="right-farm">
+    🌾🐥
+    <div class="chicken-run">🐥</div>
+  </div>
 
-  <div class="buttons">
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 🙈</button>
+  <div class="card" id="card">
+    <div class="emoji">
+      <span>🐥</span><span>❤️</span><span>🐸</span>
+    </div>
+    <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
+
+    <div class="buttons">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 🙈</button>
+    </div>
+  </div>
+</div>
+
+<!-- YAY SCENE -->
+<div class="scene" id="yayScene">
+  <div class="yay-wrap">
+    <div class="love-pair">
+      🐥 🐸
+      <div class="float-heart">❤️</div>
+    </div>
+
+    <div class="horse">🐎</div>
   </div>
 </div>
 
 <script>
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const noBtn=document.getElementById("no");
+const box=document.querySelector(".buttons");
 
-noBtn.addEventListener("mouseenter", () => {
-  noBtn.style.left = Math.random()*200+"px";
-  noBtn.style.top = Math.random()*60+"px";
-});
+function moveNo(){
+  const r=box.getBoundingClientRect();
+  noBtn.style.left=Math.random()*(r.width-80)+"px";
+  noBtn.style.top=Math.random()*(r.height-40)+"px";
+}
+noBtn.addEventListener("mouseenter",moveNo);
+noBtn.addEventListener("touchstart",moveNo);
 
-yesBtn.addEventListener("click", () => {
-  confetti({ particleCount:300, spread:160, origin:{x:0.5,y:0.5} });
-
+yesBtn.addEventListener("click",()=>{
+  confetti({particleCount:400,spread:180,origin:{x:.5,y:.5}});
   document.getElementById("firstScene").style.display="none";
-  document.getElementById("yayScene").style.display="block";
+  document.getElementById("card").style.display="none";
+  document.getElementById("yayScene").style.display="flex";
 });
+
+function heart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=Math.random()*16+12+"px";
+  h.style.animationDuration=Math.random()*3+4+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+}
+setInterval(heart,700);
 </script>
 
 </body>
 </html>
+
