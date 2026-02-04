@@ -36,7 +36,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Card */
     .card {
       width: min(92%, 420px);
       padding: 40px 30px 45px;
@@ -44,9 +43,7 @@
       backdrop-filter: blur(18px);
       border-radius: 28px;
       text-align: center;
-      box-shadow:
-        0 30px 80px rgba(0,0,0,0.25),
-        inset 0 0 0 1px rgba(255,255,255,0.4);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
       position: relative;
       animation: cardIn 1.1s ease;
     }
@@ -56,7 +53,6 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Glow ring */
     .card::before {
       content: "";
       position: absolute;
@@ -77,7 +73,6 @@
     @keyframes heartbeat {
       0%,100% { transform: scale(1); }
       25% { transform: scale(1.08); }
-      50% { transform: scale(1); }
       75% { transform: scale(1.12); }
     }
 
@@ -91,7 +86,7 @@
 
     .buttons {
       position: relative;
-      height: 78px;
+      height: 120px;
     }
 
     button {
@@ -106,20 +101,11 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
-    button:active {
-      transform: scale(0.94);
-    }
-
     #yes {
-      left: 12%;
+      left: 10%;
       background: linear-gradient(135deg, #ff4d6d, #ff758f);
       color: #fff;
       box-shadow: 0 15px 35px rgba(255,77,109,0.55);
-    }
-
-    #yes:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 40px rgba(255,77,109,0.7);
     }
 
     #no {
@@ -135,33 +121,29 @@
       font-style: italic;
     }
 
-    /* Floating depth hearts */
+    #loveMsg {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #4a1c2f;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .heart {
       position: absolute;
       bottom: -20px;
       animation: floatUp linear forwards;
       pointer-events: none;
-      filter: blur(0.3px);
     }
 
     @keyframes floatUp {
-      from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-120vh) scale(1.8);
-        opacity: 0;
-      }
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      h2 { font-size: 23px; }
-      .emoji { font-size: 58px; }
-      button { padding: 12px 28px; font-size: 15px; }
-      #yes { left: 8%; }
-      #no { left: 55%; }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-120vh); opacity: 0; }
     }
   </style>
 </head>
@@ -178,6 +160,7 @@
     </div>
 
     <div class="hint">Some love stories don’t allow “no” ✨</div>
+    <div id="loveMsg">💕 Yay! I can’t wait for Valentine’s Day with you 💕</div>
   </div>
 
   <!-- Sounds -->
@@ -187,36 +170,39 @@
   <script>
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
-    const card = document.querySelector(".card");
     const hoverSound = document.getElementById("hoverSound");
     const yesSound = document.getElementById("yesSound");
+    const buttonsBox = document.querySelector(".buttons");
 
-    noBtn.addEventListener("mouseenter", () => {
+    document.body.addEventListener("click", () => {
+      hoverSound.play().catch(() => {});
+      hoverSound.pause();
+    }, { once: true });
+
+    function moveNoButton() {
       hoverSound.currentTime = 0;
       hoverSound.play();
 
-      const cardRect = card.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+      const cRect = buttonsBox.getBoundingClientRect();
+      const bRect = noBtn.getBoundingClientRect();
 
-      const maxX = cardRect.width - btnRect.width - 10;
-      const maxY = cardRect.height - btnRect.height - 10;
+      noBtn.style.left = Math.random() * (cRect.width - bRect.width) + "px";
+      noBtn.style.top = Math.random() * (cRect.height - bRect.height) + "px";
+    }
 
-      noBtn.style.left = Math.random() * maxX + "px";
-      noBtn.style.top = Math.random() * maxY + "px";
-    });
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
 
     yesBtn.addEventListener("click", () => {
       yesSound.play();
 
       confetti({
-        particleCount: 260,
-        spread: 120,
-        origin: { y: 0.65 }
+        particleCount: 220,
+        spread: 140,
+        origin: { x: 0.5, y: 0.6 }
       });
 
-      setTimeout(() => {
-        alert("YAY 💕 I can’t wait for Valentine’s Day with you!");
-      }, 500);
+      document.getElementById("loveMsg").style.display = "block";
     });
 
     function createHeart() {
@@ -224,16 +210,16 @@
       heart.className = "heart";
       heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💗";
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 22 + 14 + "px";
+      heart.style.fontSize = Math.random() * 20 + 14 + "px";
       heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-      heart.style.opacity = Math.random() * 0.5 + 0.4;
 
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 8000);
     }
 
-    setInterval(createHeart, 380);
+    setInterval(createHeart, 650);
   </script>
 
 </body>
 </html>
+
