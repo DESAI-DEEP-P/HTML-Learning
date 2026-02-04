@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Be My Valentine 💘</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
@@ -13,13 +16,13 @@
 
 body{
   min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  font-family:Poppins,sans-serif;
   background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
   background-size:400% 400%;
   animation:bgMove 12s ease infinite;
-  font-family:Poppins,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   overflow:hidden;
 }
 
@@ -29,68 +32,110 @@ body{
   100%{background-position:0% 50%}
 }
 
+/* SCREENS */
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.05);
+}
+
+/* CARD */
 .card{
   width:min(92%,420px);
-  padding:40px 30px 45px;
-  background:rgba(255,255,255,.75);
+  padding:40px 30px;
+  background:rgba(255,255,255,.8);
   backdrop-filter:blur(18px);
   border-radius:28px;
   text-align:center;
-  position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
 }
 
 .emoji{
   font-size:64px;
-  margin-bottom:12px;
-  animation:heartbeat 1.8s infinite;
+  animation:heartbeat 1.6s infinite;
 }
 
 @keyframes heartbeat{
   0%,100%{transform:scale(1)}
-  50%{transform:scale(1.1)}
+  50%{transform:scale(1.15)}
 }
 
 h2{
   font-family:"Playfair Display",serif;
-  font-size:28px;
   color:#4a1c2f;
-  margin-bottom:30px;
+  margin:25px 0;
+  font-size:28px;
 }
 
 .buttons{
   position:relative;
-  height:120px; /* FIX 1 */
+  height:120px;
 }
 
 button{
   position:absolute;
   padding:14px 36px;
-  border-radius:40px;
   border:none;
+  border-radius:40px;
   font-size:16px;
   cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 #yes{
-  left:12%;
+  left:10%;
   background:linear-gradient(135deg,#ff4d6d,#ff758f);
-  color:#fff;
+  color:white;
 }
 
 #no{
   left:55%;
-  background:#fff;
+  background:white;
   color:#777;
 }
 
-.hint{
-  margin-top:28px;
-  font-size:13px;
-  color:#6b6b6b;
-  font-style:italic;
+/* LOVE SCREEN */
+.love-card{
+  width:min(92%,520px);
+  background:rgba(255,255,255,.85);
+  border-radius:30px;
+  padding:35px;
+  text-align:center;
+  animation:fadeUp 1s ease;
 }
 
-/* ❤️ floating hearts */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.love-card h1{
+  font-family:"Playfair Display",serif;
+  color:#b83260;
+  font-size:32px;
+  margin-bottom:15px;
+}
+
+.love-card p{
+  font-size:17px;
+  margin-bottom:20px;
+}
+
+.love-card img{
+  width:100%;
+  border-radius:20px;
+}
+
+/* FLOATING HEARTS */
 .heart{
   position:absolute;
   bottom:-20px;
@@ -99,128 +144,99 @@ button{
 }
 
 @keyframes floatUp{
+  from{transform:translateY(0);opacity:1}
   to{transform:translateY(-120vh);opacity:0}
-}
-
-/* 🐸 frog */
-.frog{
-  position:absolute;
-  font-size:28px;
-  animation:frogJump 4s infinite linear;
-  opacity:.35;
-}
-
-@keyframes frogJump{
-  0%{left:-10%;top:80%}
-  50%{left:50%;top:60%}
-  100%{left:110%;top:85%}
-}
-
-/* 💖 final screen */
-#final{
-  display:none;
-  text-align:center;
-}
-
-#final h1{
-  font-size:34px;
-}
-
-#final img{
-  width:220px;
-  border-radius:18px;
-  margin:16px 0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="mainCard">
-  <div class="emoji">🐔❤️🐸</div>
-  <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-hope-146.mp3">
+</audio>
 
-  <div class="buttons">
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 🙈</button>
+<!-- SCREEN 1 -->
+<div class="screen" id="screen1">
+  <div class="card">
+    <div class="emoji">🐱❤️</div>
+    <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
+    <div class="buttons">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 🙈</button>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:#777;font-style:italic">
+      Some love stories don’t allow “no” ✨
+    </p>
   </div>
-
-  <div class="hint">Some love stories don’t allow “no” ✨</div>
 </div>
 
-<!-- 💖 FINAL SCREEN -->
-<div class="card" id="final">
-  <h1>💖 YAY!!! 💖</h1>
-  <p>Best decision ever 🥰</p>
-  <img src="/mnt/data/774a8b5a-6d98-4575-b31c-2918c982eb0e.png">
-  <p>I love you ❤️</p>
-</div>
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="screen2">
+  <div class="love-card">
+    <h1>YAY!!! 💕</h1>
+    <p>I knew I made a good choice 🥰</p>
 
-<audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-cartoon-voice-laugh-343.mp3"></audio>
-<audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+    <!-- CHANGE IMAGE / GIF HERE -->
+    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Love GIF">
+
+    <p style="margin-top:15px">
+      I love you ❤️🐸🐱
+    </p>
+  </div>
+</div>
 
 <script>
-const noBtn=document.getElementById("no");
-const yesBtn=document.getElementById("yes");
-const buttonsBox=document.querySelector(".buttons");
-const hoverSound=document.getElementById("hoverSound");
-const yesSound=document.getElementById("yesSound");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const screen1 = document.getElementById("screen1");
+const screen2 = document.getElementById("screen2");
+const music = document.getElementById("bgMusic");
 
-/* 🔊 unlock audio */
+// unlock music
 document.body.addEventListener("click",()=>{
-  hoverSound.play().catch(()=>{});
-  hoverSound.pause();
+  music.play().catch(()=>{});
 },{once:true});
 
-/* ❌ No button move (desktop + mobile) */
+// move NO button
 function moveNo(){
-  hoverSound.currentTime=0;
-  hoverSound.play();
-
-  const c=buttonsBox.getBoundingClientRect();
-  const b=noBtn.getBoundingClientRect();
-
-  noBtn.style.left=Math.random()*(c.width-b.width)+"px";
-  noBtn.style.top=Math.random()*(c.height-b.height)+"px";
+  const box = document.querySelector(".buttons");
+  const b = noBtn.getBoundingClientRect();
+  const c = box.getBoundingClientRect();
+  noBtn.style.left = Math.random()*(c.width-b.width)+"px";
+  noBtn.style.top  = Math.random()*(c.height-b.height)+"px";
 }
 noBtn.addEventListener("mouseenter",moveNo);
 noBtn.addEventListener("touchstart",moveNo);
 
-/* 💖 YES CLICK */
+// YES click
 yesBtn.addEventListener("click",()=>{
-  yesSound.play();
-
-  document.getElementById("mainCard").style.display="none";
-  document.getElementById("final").style.display="block";
-
   confetti({
-    particleCount:420,
+    particleCount:300,
     spread:160,
-    origin:{x:.5,y:.6},
-    shapes:["circle"],
-    emojis:["🌹","🌸","🥀"]
+    origin:{x:0.5,y:0.5}
   });
+
+  screen1.classList.add("hidden");
+  setTimeout(()=>{
+    screen2.classList.remove("hidden");
+  },600);
 });
 
-/* ❤️ hearts */
-function createHeart(){
+// floating hearts
+function heart(){
   const h=document.createElement("div");
   h.className="heart";
-  h.innerHTML=Math.random()>.5?"❤️":"💗";
+  h.innerHTML=Math.random()>0.5?"❤️":"💗";
   h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=Math.random()*20+14+"px";
   h.style.animationDuration=Math.random()*3+4+"s";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),8000);
 }
-setInterval(createHeart,420);
-
-/* 🐸 frog */
-const frog=document.createElement("div");
-frog.className="frog";
-frog.textContent="🐸";
-document.body.appendChild(frog);
+setInterval(heart,700);
 </script>
 
 </body>
 </html>
-
