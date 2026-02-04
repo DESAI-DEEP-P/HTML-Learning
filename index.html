@@ -1,239 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Be My Valentine 💘</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💘</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+  background-size:400% 400%;
+  animation:bgMove 12s ease infinite;
+  font-family:Poppins,sans-serif;
+  overflow:hidden;
+}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-      background-size: 400% 400%;
-      animation: bgMove 12s ease infinite;
-      font-family: "Poppins", sans-serif;
-      overflow: hidden;
-    }
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
 
-    @keyframes bgMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+.card{
+  width:min(92%,420px);
+  padding:40px 30px 45px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(18px);
+  border-radius:28px;
+  text-align:center;
+  position:relative;
+}
 
-    /* Card */
-    .card {
-      width: min(92%, 420px);
-      padding: 40px 30px 45px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(18px);
-      border-radius: 28px;
-      text-align: center;
-      box-shadow:
-        0 30px 80px rgba(0,0,0,0.25),
-        inset 0 0 0 1px rgba(255,255,255,0.4);
-      position: relative;
-      animation: cardIn 1.1s ease;
-    }
+.emoji{
+  font-size:64px;
+  margin-bottom:12px;
+  animation:heartbeat 1.8s infinite;
+}
 
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
 
-    /* Glow ring */
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 30px;
-      background: linear-gradient(120deg, #ff4d6d, #ff9a9e, #fbc2eb);
-      z-index: -1;
-      filter: blur(20px);
-      opacity: 0.7;
-    }
+h2{
+  font-family:"Playfair Display",serif;
+  font-size:28px;
+  color:#4a1c2f;
+  margin-bottom:30px;
+}
 
-    .emoji {
-      font-size: 68px;
-      margin-bottom: 12px;
-      animation: heartbeat 1.8s infinite;
-    }
+.buttons{
+  position:relative;
+  height:120px; /* FIX 1 */
+}
 
-    @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      25% { transform: scale(1.08); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.12); }
-    }
+button{
+  position:absolute;
+  padding:14px 36px;
+  border-radius:40px;
+  border:none;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    h2 {
-      font-family: "Playfair Display", serif;
-      font-size: 28px;
-      color: #4a1c2f;
-      margin-bottom: 30px;
-      line-height: 1.35;
-    }
+#yes{
+  left:12%;
+  background:linear-gradient(135deg,#ff4d6d,#ff758f);
+  color:#fff;
+}
 
-    .buttons {
-      position: relative;
-      height: 78px;
-    }
+#no{
+  left:55%;
+  background:#fff;
+  color:#777;
+}
 
-    button {
-      position: absolute;
-      padding: 14px 36px;
-      border-radius: 40px;
-      border: none;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
+.hint{
+  margin-top:28px;
+  font-size:13px;
+  color:#6b6b6b;
+  font-style:italic;
+}
 
-    button:active {
-      transform: scale(0.94);
-    }
+/* ❤️ floating hearts */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  animation:floatUp linear forwards;
+  pointer-events:none;
+}
 
-    #yes {
-      left: 12%;
-      background: linear-gradient(135deg, #ff4d6d, #ff758f);
-      color: #fff;
-      box-shadow: 0 15px 35px rgba(255,77,109,0.55);
-    }
+@keyframes floatUp{
+  to{transform:translateY(-120vh);opacity:0}
+}
 
-    #yes:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 40px rgba(255,77,109,0.7);
-    }
+/* 🐸 frog */
+.frog{
+  position:absolute;
+  font-size:28px;
+  animation:frogJump 4s infinite linear;
+  opacity:.35;
+}
 
-    #no {
-      left: 55%;
-      background: rgba(255,255,255,0.9);
-      color: #777;
-    }
+@keyframes frogJump{
+  0%{left:-10%;top:80%}
+  50%{left:50%;top:60%}
+  100%{left:110%;top:85%}
+}
 
-    .hint {
-      margin-top: 28px;
-      font-size: 13px;
-      color: #6b6b6b;
-      font-style: italic;
-    }
+/* 💖 final screen */
+#final{
+  display:none;
+  text-align:center;
+}
 
-    /* Floating depth hearts */
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      animation: floatUp linear forwards;
-      pointer-events: none;
-      filter: blur(0.3px);
-    }
+#final h1{
+  font-size:34px;
+}
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-120vh) scale(1.8);
-        opacity: 0;
-      }
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      h2 { font-size: 23px; }
-      .emoji { font-size: 58px; }
-      button { padding: 12px 28px; font-size: 15px; }
-      #yes { left: 8%; }
-      #no { left: 55%; }
-    }
-  </style>
+#final img{
+  width:220px;
+  border-radius:18px;
+  margin:16px 0;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="card">
-    <div class="emoji">🐱❤️</div>
-    <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
+<div class="card" id="mainCard">
+  <div class="emoji">🐔❤️🐸</div>
+  <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
 
-    <div class="buttons">
-      <button id="yes">Yes 💖</button>
-      <button id="no">No 🙈</button>
-    </div>
-
-    <div class="hint">Some love stories don’t allow “no” ✨</div>
+  <div class="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 🙈</button>
   </div>
 
-  <!-- Sounds -->
-  <audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-cartoon-voice-laugh-343.mp3"></audio>
-  <audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+  <div class="hint">Some love stories don’t allow “no” ✨</div>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const card = document.querySelector(".card");
-    const hoverSound = document.getElementById("hoverSound");
-    const yesSound = document.getElementById("yesSound");
+<!-- 💖 FINAL SCREEN -->
+<div class="card" id="final">
+  <h1>💖 YAY!!! 💖</h1>
+  <p>Best decision ever 🥰</p>
+  <img src="/mnt/data/774a8b5a-6d98-4575-b31c-2918c982eb0e.png">
+  <p>I love you ❤️</p>
+</div>
 
-    noBtn.addEventListener("mouseenter", () => {
-      hoverSound.currentTime = 0;
-      hoverSound.play();
+<audio id="hoverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-cartoon-voice-laugh-343.mp3"></audio>
+<audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
 
-      const cardRect = card.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+<script>
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const buttonsBox=document.querySelector(".buttons");
+const hoverSound=document.getElementById("hoverSound");
+const yesSound=document.getElementById("yesSound");
 
-      const maxX = cardRect.width - btnRect.width - 10;
-      const maxY = cardRect.height - btnRect.height - 10;
+/* 🔊 unlock audio */
+document.body.addEventListener("click",()=>{
+  hoverSound.play().catch(()=>{});
+  hoverSound.pause();
+},{once:true});
 
-      noBtn.style.left = Math.random() * maxX + "px";
-      noBtn.style.top = Math.random() * maxY + "px";
-    });
+/* ❌ No button move (desktop + mobile) */
+function moveNo(){
+  hoverSound.currentTime=0;
+  hoverSound.play();
 
-    yesBtn.addEventListener("click", () => {
-      yesSound.play();
+  const c=buttonsBox.getBoundingClientRect();
+  const b=noBtn.getBoundingClientRect();
 
-      confetti({
-        particleCount: 260,
-        spread: 120,
-        origin: { y: 0.65 }
-      });
+  noBtn.style.left=Math.random()*(c.width-b.width)+"px";
+  noBtn.style.top=Math.random()*(c.height-b.height)+"px";
+}
+noBtn.addEventListener("mouseenter",moveNo);
+noBtn.addEventListener("touchstart",moveNo);
 
-      setTimeout(() => {
-        alert("YAY 💕 I can’t wait for Valentine’s Day with you!");
-      }, 500);
-    });
+/* 💖 YES CLICK */
+yesBtn.addEventListener("click",()=>{
+  yesSound.play();
 
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💗";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 22 + 14 + "px";
-      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-      heart.style.opacity = Math.random() * 0.5 + 0.4;
+  document.getElementById("mainCard").style.display="none";
+  document.getElementById("final").style.display="block";
 
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
-    }
+  confetti({
+    particleCount:420,
+    spread:160,
+    origin:{x:.5,y:.6},
+    shapes:["circle"],
+    emojis:["🌹","🌸","🥀"]
+  });
+});
 
-    setInterval(createHeart, 380);
-  </script>
+/* ❤️ hearts */
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML=Math.random()>.5?"❤️":"💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=Math.random()*3+4+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+}
+setInterval(createHeart,420);
+
+/* 🐸 frog */
+const frog=document.createElement("div");
+frog.className="frog";
+frog.textContent="🐸";
+document.body.appendChild(frog);
+</script>
 
 </body>
 </html>
