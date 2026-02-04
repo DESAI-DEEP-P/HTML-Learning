@@ -5,283 +5,221 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Be My Valentine 💘</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
-<!-- Confetti -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+* { margin:0; padding:0; box-sizing:border-box; }
 
-body{
+body {
   min-height:100vh;
-  font-family:Poppins,sans-serif;
-  background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
-  background-size:400% 400%;
-  animation:bgMove 12s ease infinite;
   display:flex;
   align-items:center;
   justify-content:center;
+  background: linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+  background-size:400% 400%;
+  animation:bgMove 12s infinite;
+  font-family:Poppins,sans-serif;
   overflow:hidden;
 }
 
-@keyframes bgMove{
+@keyframes bgMove {
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
 
-/* SCREENS */
-.screen{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:opacity 0.8s ease, transform 0.8s ease;
-}
-
-.hidden{
-  opacity:0;
-  pointer-events:none;
-  transform:scale(1.05);
-}
-
-/* CARD */
-.card{
-  width:min(92%,420px);
-  padding:40px 30px;
-  background:rgba(255,255,255,.8);
-  backdrop-filter:blur(18px);
+/* ---------- CARD ---------- */
+.card {
+  width:420px;
+  padding:40px;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(15px);
   border-radius:28px;
   text-align:center;
-  box-shadow:0 30px 80px rgba(0,0,0,.25);
-}
-
-.emoji{
-  font-size:64px;
-  animation:heartbeat 1.6s infinite;
-}
-
-@keyframes heartbeat{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.15)}
-}
-
-h2{
-  font-family:"Playfair Display",serif;
-  color:#4a1c2f;
-  margin:25px 0;
-  font-size:28px;
-}
-
-.buttons{
   position:relative;
-  height:120px;
+  z-index:2;
 }
 
-button{
+h2 {
+  font-family:"Playfair Display",serif;
+  margin-bottom:25px;
+  color:#4a1c2f;
+}
+
+/* ---------- EMOJIS ---------- */
+.emoji span {
+  font-size:64px;
+  display:inline-block;
+  margin:0 6px;
+}
+
+.chick { animation: flap 1.5s infinite; }
+.frog { animation: hop 1.8s infinite; }
+.heartEmoji { animation: pulse 1.6s infinite; }
+
+@keyframes flap {
+  50% { transform:translateY(-6px) rotate(6deg); }
+}
+
+@keyframes hop {
+  40% { transform:translateY(-14px); }
+}
+
+@keyframes pulse {
+  50% { transform:scale(1.15); }
+}
+
+/* ---------- BUTTONS ---------- */
+.buttons {
+  position:relative;
+  height:110px;
+}
+
+button {
   position:absolute;
   padding:14px 36px;
   border:none;
   border-radius:40px;
-  font-size:16px;
   cursor:pointer;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  font-size:16px;
 }
 
-#yes{
+#yes {
   left:10%;
-  background:linear-gradient(135deg,#ff4d6d,#ff758f);
+  background:#ff4d6d;
   color:white;
 }
 
-#no{
+#no {
   left:55%;
-  background:white;
-  color:#777;
+  background:#fff;
 }
 
-/* LOVE SCREEN */
-.love-card{
-  width:min(92%,520px);
-  background:rgba(255,255,255,.85);
-  border-radius:30px;
-  padding:35px;
-  text-align:center;
-  animation:fadeUp 1s ease;
-}
-
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.love-card h1{
-  font-family:"Playfair Display",serif;
-  color:#b83260;
-  font-size:32px;
-  margin-bottom:15px;
-}
-
-.love-card p{
-  font-size:17px;
-  margin-bottom:20px;
-}
-
-.love-card img{
-  width:100%;
-  border-radius:20px;
-}
-
-/* FLOATING HEARTS */
-.heart{
+/* ---------- FIRST SCREEN ANIMALS ---------- */
+.scene {
   position:absolute;
-  bottom:-20px;
-  animation:floatUp linear forwards;
+  inset:0;
   pointer-events:none;
 }
 
-@keyframes floatUp{
-  from{transform:translateY(0);opacity:1}
-  to{transform:translateY(-120vh);opacity:0}
-}
-  .emoji span {
-  display: inline-block;
-  margin: 0 6px;
+.pond {
+  position:absolute;
+  left:5%;
+  bottom:10%;
+  font-size:50px;
 }
 
-/* 🐥 Flapping */
-.chick {
-  animation: flap 1.6s ease-in-out infinite;
+.frog-run {
+  position:absolute;
+  left:5%;
+  bottom:18%;
+  font-size:40px;
+  animation:frogRun 4s infinite alternate ease-in-out;
 }
 
-@keyframes flap {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-6px) rotate(-8deg); }
-  50% { transform: translateY(0) rotate(0deg); }
-  75% { transform: translateY(-6px) rotate(8deg); }
+@keyframes frogRun {
+  from { transform:translateX(0); }
+  to { transform:translateX(120px); }
 }
 
-/* ❤️ Gentle pulse */
-.heartEmoji {
-  animation: heartBeat 1.8s infinite;
+.chicken-run {
+  position:absolute;
+  right:5%;
+  bottom:12%;
+  font-size:40px;
+  animation:chickenRun 3.5s infinite alternate;
 }
 
-@keyframes heartBeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+@keyframes chickenRun {
+  from { transform:translateX(0) translateY(0); }
+  to { transform:translateX(-120px) translateY(-20px); }
 }
 
-/* 🐸 Hopping */
-.frog {
-  animation: hop 1.8s ease-in-out infinite;
+/* ---------- YAY SCREEN ---------- */
+#yayScreen {
+  display:none;
 }
 
-@keyframes hop {
-  0%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-14px); }
-  60% { transform: translateY(0); }
+.couple {
+  position:absolute;
+  left:6%;
+  bottom:20%;
+  font-size:44px;
 }
 
+.couple .heart {
+  position:absolute;
+  left:50%;
+  animation:floatHeart 2s infinite;
+}
+
+@keyframes floatHeart {
+  from { transform:translateY(0); opacity:1; }
+  to { transform:translateY(-40px); opacity:0; }
+}
+
+.horse {
+  position:absolute;
+  right:6%;
+  bottom:20%;
+  font-size:44px;
+  animation:horseHop 1.8s infinite;
+}
+
+@keyframes horseHop {
+  50% { transform:translateY(-20px); }
+}
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-hope-146.mp3">
-</audio>
-
-<!-- SCREEN 1 -->
-<div class="screen" id="screen1">
-  <div class="card">
-    <div class="emoji">
-  <span class="chick">🐥</span>
-  <span class="heartEmoji">❤️</span>
-  <span class="frog">🐸</span>
+<div class="scene" id="firstScene">
+  <div class="pond">🌊</div>
+  <div class="frog-run">🐸</div>
+  <div class="chicken-run">🐥</div>
 </div>
 
-    <h2> Sakina Kakkai,<br> Begam sahiba will you let me be your Valentine?</h2>
-    <div class="buttons">
-      <button id="yes">Yes 💖</button>
-      <button id="no">No 🙈</button>
-    </div>
-    <p style="margin-top:20px;font-size:13px;color:#777;font-style:italic">
-      Some love stories don’t allow “no” ✨
-    </p>
+<div class="scene" id="yayScene" style="display:none">
+  <div class="couple">
+    🐸 🐥
+    <div class="heart">❤️</div>
   </div>
+  <div class="horse">🐎</div>
 </div>
 
-<!-- SCREEN 2 -->
-<div class="screen hidden" id="screen2">
-  <div class="love-card">
-    <h1>YAY!!! 💕</h1>
-    <p>I knew I made a good choice 🥰</p>
+<div class="card" id="card">
+  <div class="emoji">
+    <span class="chick">🐥</span>
+    <span class="heartEmoji">❤️</span>
+    <span class="frog">🐸</span>
+  </div>
 
-    <!-- CHANGE IMAGE / GIF HERE -->
-    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Love GIF">
+  <h2>Sakina Kakkai,<br>will you be my Valentine?</h2>
 
-    <p style="margin-top:15px">
-      I love you ❤️🐸🐱
-    </p>
+  <div class="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 🙈</button>
   </div>
 </div>
 
 <script>
-const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
-const screen1 = document.getElementById("screen1");
-const screen2 = document.getElementById("screen2");
-const music = document.getElementById("bgMusic");
+const noBtn = document.getElementById("no");
 
-// unlock music
-document.body.addEventListener("click",()=>{
-  music.play().catch(()=>{});
-},{once:true});
-
-// move NO button
-function moveNo(){
-  const box = document.querySelector(".buttons");
-  const b = noBtn.getBoundingClientRect();
-  const c = box.getBoundingClientRect();
-  noBtn.style.left = Math.random()*(c.width-b.width)+"px";
-  noBtn.style.top  = Math.random()*(c.height-b.height)+"px";
-}
-noBtn.addEventListener("mouseenter",moveNo);
-noBtn.addEventListener("touchstart",moveNo);
-
-// YES click
-yesBtn.addEventListener("click",()=>{
-  confetti({
-    particleCount:300,
-    spread:160,
-    origin:{x:0.5,y:0.5}
-  });
-
-  screen1.classList.add("hidden");
-  setTimeout(()=>{
-    screen2.classList.remove("hidden");
-  },600);
+noBtn.addEventListener("mouseenter", () => {
+  noBtn.style.left = Math.random()*200+"px";
+  noBtn.style.top = Math.random()*60+"px";
 });
 
-// floating hearts
-function heart(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML=Math.random()>0.5?"❤️":"💗";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=Math.random()*20+14+"px";
-  h.style.animationDuration=Math.random()*3+4+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),8000);
-}
-setInterval(heart,700);
+yesBtn.addEventListener("click", () => {
+  confetti({ particleCount:300, spread:160, origin:{x:0.5,y:0.5} });
+
+  document.getElementById("firstScene").style.display="none";
+  document.getElementById("yayScene").style.display="block";
+});
 </script>
 
 </body>
 </html>
-
-
